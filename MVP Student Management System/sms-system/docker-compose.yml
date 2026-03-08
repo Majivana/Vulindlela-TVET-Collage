@@ -1,0 +1,76 @@
+# Student Management System - Docker Compose
+# 
+# This file sets up the complete SMS environment with:
+# - PostgreSQL database
+# - Backend API server
+# 
+# Usage:
+#   docker-compose up -d          # Start all services
+#   docker-compose down           # Stop all services
+#   docker-compose logs -f        # View logs
+#   docker-compose build          # Rebuild images
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: sms-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: sms_db
+      POSTGRES_USER: sms_user
+      POSTGRES_PASSWORD: sms_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sms_user -d sms_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build: ./backend
+    container_name: sms-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://sms_user:sms_password@db:5432/sms_db
+      SECRET_KEY: your-super-secret-key-change-this-in-production
+      JWT_SECRET_KEY: your-jwt-secret-key-change-this
+      DEBUG: "false"
+      LOG_LEVEL: INFO
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "
+        echo 'Waiting for database...' &&
+        sleep 5 &&
+        uvicorn app.main:app --host 0.0.0.0 --port 8000
+      "
+
+  # Frontend (optional - for static file serving)
+  # Uncomment if you want to serve frontend through nginx
+  # frontend:
+  #   image: nginx:alpine
+  #   container_name: sms-frontend
+  #   restart: unless-stopped
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - ./frontend/templates:/usr/share/nginx/html
+  #     - ./frontend/static:/usr/share/nginx/html/static
+  #   depends_on:
+  #     - backend
+
+volumes:
+  postgres_data:
+    driver: local

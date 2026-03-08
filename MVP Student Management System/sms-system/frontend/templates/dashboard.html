@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Student Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/css/main.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>SMS</span>
+                </a>
+                <p class="logo-subtitle">Student Management</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <p class="nav-section-title">Main</p>
+                    <a href="dashboard.html" class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="profile.html" class="nav-item">
+                        <i class="fas fa-user"></i>
+                        <span>My Profile</span>
+                    </a>
+                    <a href="modules.html" class="nav-item">
+                        <i class="fas fa-book"></i>
+                        <span>My Modules</span>
+                    </a>
+                    <a href="timetable.html" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Timetable</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <p class="nav-section-title">Academic</p>
+                    <a href="attendance.html" class="nav-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Attendance</span>
+                    </a>
+                    <a href="assignments.html" class="nav-item">
+                        <i class="fas fa-tasks"></i>
+                        <span>Assignments</span>
+                    </a>
+                    <a href="results.html" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Results</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <p class="nav-section-title">Support</p>
+                    <a href="tickets.html" class="nav-item">
+                        <i class="fas fa-headset"></i>
+                        <span>Helpdesk</span>
+                    </a>
+                    <a href="campus-map.html" class="nav-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Campus Map</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notification-count">0</span>
+                    </button>
+                    <div class="user-menu dropdown">
+                        <div class="user-avatar" id="user-avatar">ST</div>
+                        <div class="user-info">
+                            <div class="user-name" id="user-name">Student Name</div>
+                            <div class="user-role" id="user-role">Student</div>
+                        </div>
+                        <button class="btn btn-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item logout-btn" href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Welcome Banner -->
+                <div class="card mb-4" style="background: linear-gradient(135deg, #252540 0%, #1A1A2E 100%); color: white;">
+                    <div class="card-body p-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h2 class="mb-2">Welcome back, <span id="welcome-name">Student</span>!</h2>
+                                <p class="mb-0 opacity-75">Here's what's happening with your studies today.</p>
+                            </div>
+                            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                <span class="badge bg-warning text-dark fs-6 px-3 py-2">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    <span id="app-status">Application Under Review</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-modules">0</div>
+                            <div class="stat-label">Enrolled Modules</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-attendance">0%</div>
+                            <div class="stat-label">Attendance Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon info">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-assignments">0</div>
+                            <div class="stat-label">Pending Assignments</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="stat-tickets">0</div>
+                            <div class="stat-label">Open Tickets</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Upcoming Classes -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h5 class="card-title"><i class="fas fa-calendar-day me-2 text-primary"></i>Upcoming Classes</h5>
+                                <a href="timetable.html" class="btn btn-sm btn-outline">View All</a>
+                            </div>
+                            <div class="card-body">
+                                <div id="upcoming-classes">
+                                    <div class="text-center py-4">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Assignments -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h5 class="card-title"><i class="fas fa-clipboard-list me-2 text-success"></i>Upcoming Assignments</h5>
+                                <a href="assignments.html" class="btn btn-sm btn-outline">View All</a>
+                            </div>
+                            <div class="card-body">
+                                <div id="upcoming-assignments">
+                                    <div class="text-center py-4">
+                                        <div class="spinner-border text-success" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Announcements -->
+                    <div class="col-lg-8 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title"><i class="fas fa-bullhorn me-2 text-info"></i>Announcements</h5>
+                                <a href="announcements.html" class="btn btn-sm btn-outline">View All</a>
+                            </div>
+                            <div class="card-body">
+                                <div id="announcements-list">
+                                    <div class="text-center py-4">
+                                        <div class="spinner-border text-info" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Funding Status -->
+                    <div class="col-lg-4 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title"><i class="fas fa-money-bill-wave me-2 text-warning"></i>Funding Status</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="funding-status">
+                                    <div class="text-center py-4">
+                                        <div class="spinner-border text-warning" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Tickets -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title"><i class="fas fa-headset me-2 text-danger"></i>Recent Support Tickets</h5>
+                        <a href="tickets.html" class="btn btn-sm btn-outline">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div id="recent-tickets">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-danger" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/app.js"></script>
+    <script>
+        // Load dashboard data
+        async function loadDashboard() {
+            try {
+                const data = await API.get('/dashboard/student');
+                
+                if (data) {
+                    renderDashboard(data);
+                }
+            } catch (error) {
+                console.error('Failed to load dashboard:', error);
+            }
+        }
+        
+        function renderDashboard(data) {
+            // User info
+            document.getElementById('welcome-name').textContent = data.user.first_name;
+            document.getElementById('user-name').textContent = data.user.full_name;
+            document.getElementById('user-role').textContent = data.user.role;
+            document.getElementById('user-avatar').textContent = UI.getInitials(data.user.full_name);
+            
+            // Application status
+            const appStatus = document.getElementById('app-status');
+            appStatus.textContent = data.application_progress.status_display;
+            
+            // Stats
+            document.getElementById('stat-modules').textContent = data.enrolled_modules.length;
+            document.getElementById('stat-attendance').textContent = data.attendance_summary.attendance_rate + '%';
+            document.getElementById('stat-assignments').textContent = data.upcoming_assignments.length;
+            document.getElementById('stat-tickets').textContent = data.open_tickets;
+            
+            // Upcoming classes
+            renderUpcomingClasses(data.upcoming_classes);
+            
+            // Upcoming assignments
+            renderUpcomingAssignments(data.upcoming_assignments);
+            
+            // Announcements
+            renderAnnouncements(data.announcements);
+            
+            // Funding status
+            renderFundingStatus(data.funding_status);
+            
+            // Recent tickets
+            renderRecentTickets(data.recent_tickets);
+        }
+        
+        function renderUpcomingClasses(classes) {
+            const container = document.getElementById('upcoming-classes');
+            
+            if (!classes || classes.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar"></i>
+                        <h5>No upcoming classes</h5>
+                        <p>Check your timetable for the full schedule</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = classes.map(cls => `
+                <div class="d-flex align-items-center p-3 mb-2 bg-light rounded">
+                    <div class="flex-shrink-0">
+                        <div class="bg-primary text-white rounded p-2 text-center" style="width: 50px;">
+                            <small class="d-block text-uppercase">${cls.day_of_week.substring(0, 3)}</small>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-1">${cls.module_code} - ${cls.module_title}</h6>
+                        <p class="mb-0 text-muted small">
+                            <i class="fas fa-clock me-1"></i>${UI.formatTime(cls.start_time)} - ${UI.formatTime(cls.end_time)}
+                            <span class="mx-2">|</span>
+                            <i class="fas fa-map-marker-alt me-1"></i>${cls.venue || 'TBA'}
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <span class="badge bg-primary">${cls.slot_type}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function renderUpcomingAssignments(assignments) {
+            const container = document.getElementById('upcoming-assignments');
+            
+            if (!assignments || assignments.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-clipboard-check"></i>
+                        <h5>No pending assignments</h5>
+                        <p>You're all caught up!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = assignments.map(assignment => `
+                <div class="d-flex align-items-center p-3 mb-2 ${assignment.is_overdue ? 'bg-danger bg-opacity-10' : 'bg-light'} rounded">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-1">${assignment.title}</h6>
+                        <p class="mb-0 text-muted small">
+                            <i class="fas fa-book me-1"></i>${assignment.module_code}
+                            <span class="mx-2">|</span>
+                            <i class="fas fa-calendar me-1"></i>Due: ${UI.formatDate(assignment.due_date)}
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        ${assignment.submitted 
+                            ? '<span class="badge bg-success">Submitted</span>'
+                            : assignment.is_overdue 
+                                ? '<span class="badge bg-danger">Overdue</span>'
+                                : '<span class="badge bg-warning">Pending</span>'
+                        }
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function renderAnnouncements(announcements) {
+            const container = document.getElementById('announcements-list');
+            
+            if (!announcements || announcements.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-bullhorn"></i>
+                        <h5>No announcements</h5>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = announcements.map(announcement => `
+                <div class="d-flex align-items-start p-3 mb-2 bg-light rounded">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-bullhorn text-info mt-1"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-1">${announcement.title}</h6>
+                        <p class="mb-1 text-muted small">${announcement.excerpt}</p>
+                        <small class="text-muted">${UI.formatDateTime(announcement.created_at)}</small>
+                    </div>
+                    ${announcement.is_pinned ? '<span class="badge bg-primary"><i class="fas fa-thumbtack"></i></span>' : ''}
+                </div>
+            `).join('');
+        }
+        
+        function renderFundingStatus(funding) {
+            const container = document.getElementById('funding-status');
+            
+            if (!funding) {
+                container.innerHTML = '<p class="text-muted">No funding information available</p>';
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="text-center">
+                    <div class="mb-3">
+                        <span class="badge ${funding.funded ? 'bg-success' : 'bg-warning'} fs-6 px-3 py-2">
+                            <i class="fas fa-${funding.funded ? 'check-circle' : 'clock'} me-1"></i>
+                            ${funding.funded ? 'Funded' : 'Pending Approval'}
+                        </span>
+                    </div>
+                    ${funding.funded ? `
+                        <div class="funding-details">
+                            <h4 class="text-success mb-2">R ${funding.funding_amount?.toLocaleString() || '0'}</h4>
+                            <p class="text-muted mb-1">${funding.funding_source || 'N/A'}</p>
+                            <small class="text-muted">Ref: ${funding.funding_reference || 'N/A'}</small>
+                        </div>
+                    ` : `
+                        <p class="text-muted">Your funding application is being reviewed</p>
+                    `}
+                </div>
+            `;
+        }
+        
+        function renderRecentTickets(tickets) {
+            const container = document.getElementById('recent-tickets');
+            
+            if (!tickets || tickets.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-ticket-alt"></i>
+                        <h5>No recent tickets</h5>
+                        <p><a href="tickets.html">Create a ticket</a> if you need help</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Ticket #</th>
+                                <th>Subject</th>
+                                <th>Department</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tickets.map(ticket => `
+                                <tr>
+                                    <td><a href="ticket-detail.html?id=${ticket.id}">${ticket.ticket_number}</a></td>
+                                    <td>${ticket.subject}</td>
+                                    <td>${ticket.department}</td>
+                                    <td>${UI.getStatusBadge(ticket.status)}</td>
+                                    <td>${UI.formatDate(ticket.created_at)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+        
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>

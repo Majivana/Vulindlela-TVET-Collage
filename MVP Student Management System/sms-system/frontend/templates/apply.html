@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply - Student Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #D4A84B;
+            --primary-dark: #B8943F;
+            --secondary-color: #1A1A2E;
+            --accent-color: #252540;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #F8F9FA;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color) !important;
+        }
+        
+        /* Application Form */
+        .application-section {
+            padding: 60px 0;
+        }
+        
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        .form-header {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .form-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .form-header p {
+            opacity: 0.8;
+            margin-bottom: 0;
+        }
+        
+        .form-body {
+            padding: 40px;
+        }
+        
+        .form-section {
+            margin-bottom: 40px;
+        }
+        
+        .form-section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-section-title i {
+            color: var(--primary-color);
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: #2C3E50;
+            margin-bottom: 8px;
+        }
+        
+        .form-control, .form-select {
+            border: 2px solid #E9ECEF;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(212, 168, 75, 0.25);
+        }
+        
+        .input-group-text {
+            background: #F8F9FA;
+            border: 2px solid #E9ECEF;
+            border-right: none;
+            border-radius: 10px 0 0 10px;
+            color: #6C757D;
+        }
+        
+        .input-group .form-control {
+            border-left: none;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .btn-primary-custom {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .btn-primary-custom:hover {
+            background: var(--primary-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary-custom:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .sector-card {
+            border: 2px solid #E9ECEF;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            height: 100%;
+        }
+        
+        .sector-card:hover {
+            border-color: var(--primary-color);
+            background: rgba(212, 168, 75, 0.05);
+        }
+        
+        .sector-card.selected {
+            border-color: var(--primary-color);
+            background: rgba(212, 168, 75, 0.1);
+        }
+        
+        .sector-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .sector-card h5 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .sector-card small {
+            color: #6C757D;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #E9ECEF;
+            color: #6C757D;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .step.active .step-number {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .step.completed .step-number {
+            background: #28A745;
+            color: white;
+        }
+        
+        .step-line {
+            width: 60px;
+            height: 3px;
+            background: #E9ECEF;
+            margin: 0 10px;
+        }
+        
+        .step.completed + .step .step-line,
+        .step.active .step-line {
+            background: var(--primary-color);
+        }
+        
+        .step-label {
+            font-size: 0.8rem;
+            color: #6C757D;
+            margin-top: 5px;
+            text-align: center;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--secondary-color);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        footer p {
+            margin: 0;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-graduation-cap me-2"></i>SMS
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Application Form -->
+    <section class="application-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="form-card">
+                        <div class="form-header">
+                            <h1><i class="fas fa-file-alt me-2"></i>Student Application</h1>
+                            <p>Complete the form below to apply for admission</p>
+                        </div>
+                        
+                        <div class="form-body">
+                            <!-- Progress Steps -->
+                            <div class="progress-steps">
+                                <div class="step active">
+                                    <div>
+                                        <div class="step-number">1</div>
+                                        <div class="step-label">Personal Info</div>
+                                    </div>
+                                </div>
+                                <div class="step-line"></div>
+                                <div class="step">
+                                    <div>
+                                        <div class="step-number">2</div>
+                                        <div class="step-label">Course Selection</div>
+                                    </div>
+                                </div>
+                                <div class="step-line"></div>
+                                <div class="step">
+                                    <div>
+                                        <div class="step-number">3</div>
+                                        <div class="step-label">Submit</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="alert-container"></div>
+                            
+                            <form id="application-form">
+                                <!-- Account Information -->
+                                <div class="form-section">
+                                    <h3 class="form-section-title">
+                                        <i class="fas fa-user-circle"></i>
+                                        Account Information
+                                    </h3>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">First Name *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                <input type="text" class="form-control" name="first_name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Last Name *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                <input type="text" class="form-control" name="last_name" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Email Address *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                                <input type="email" class="form-control" name="email" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Phone Number *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                                <input type="tel" class="form-control" name="phone" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Password *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                                <input type="password" class="form-control" name="password" required minlength="8">
+                                            </div>
+                                            <small class="text-muted">Minimum 8 characters</small>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Confirm Password *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                                <input type="password" class="form-control" name="confirm_password" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Personal Information -->
+                                <div class="form-section">
+                                    <h3 class="form-section-title">
+                                        <i class="fas fa-id-card"></i>
+                                        Personal Information
+                                    </h3>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">ID Number / Passport *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
+                                                <input type="text" class="form-control" name="id_number" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Date of Birth *</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                                <input type="date" class="form-control" name="date_of_birth" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Physical Address *</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-home"></i></span>
+                                            <textarea class="form-control" name="address" rows="2" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">City *</label>
+                                            <input type="text" class="form-control" name="city" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Postal Code *</label>
+                                            <input type="text" class="form-control" name="postal_code" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Emergency Contact -->
+                                <div class="form-section">
+                                    <h3 class="form-section-title">
+                                        <i class="fas fa-phone-alt"></i>
+                                        Emergency Contact
+                                    </h3>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Contact Name *</label>
+                                            <input type="text" class="form-control" name="emergency_contact_name" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Contact Phone *</label>
+                                            <input type="tel" class="form-control" name="emergency_contact_phone" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Relationship</label>
+                                        <input type="text" class="form-control" name="emergency_contact_relationship" placeholder="e.g., Parent, Spouse">
+                                    </div>
+                                </div>
+                                
+                                <!-- Course Selection -->
+                                <div class="form-section">
+                                    <h3 class="form-section-title">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        Select Your Course
+                                    </h3>
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <div class="sector-card" data-sector="diesel_mechanic">
+                                                <i class="fas fa-truck-monster"></i>
+                                                <h5>Diesel Mechanic</h5>
+                                                <small>2-3 Years</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="sector-card" data-sector="plumbing">
+                                                <i class="fas fa-faucet"></i>
+                                                <h5>Plumbing</h5>
+                                                <small>1-2 Years</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="sector-card" data-sector="electrician">
+                                                <i class="fas fa-bolt"></i>
+                                                <h5>Electrician</h5>
+                                                <small>2-3 Years</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="sector-card" data-sector="welding">
+                                                <i class="fas fa-fire"></i>
+                                                <h5>Welding</h5>
+                                                <small>1-2 Years</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="sector-card" data-sector="ict">
+                                                <i class="fas fa-laptop-code"></i>
+                                                <h5>ICT</h5>
+                                                <small>2-3 Years</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="sector" id="selected-sector" required>
+                                </div>
+                                
+                                <!-- Previous Education -->
+                                <div class="form-section">
+                                    <h3 class="form-section-title">
+                                        <i class="fas fa-book"></i>
+                                        Previous Education
+                                    </h3>
+                                    <div class="mb-3">
+                                        <label class="form-label">Highest Qualification</label>
+                                        <select class="form-select" name="highest_qualification">
+                                            <option value="">Select...</option>
+                                            <option value="grade_9">Grade 9</option>
+                                            <option value="grade_10">Grade 10</option>
+                                            <option value="grade_11">Grade 11</option>
+                                            <option value="grade_12">Grade 12 / Matric</option>
+                                            <option value="certificate">Certificate</option>
+                                            <option value="diploma">Diploma</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Previous Education Details</label>
+                                        <textarea class="form-control" name="previous_education" rows="3" 
+                                            placeholder="Tell us about your previous education, including school name and year completed"></textarea>
+                                    </div>
+                                </div>
+                                
+                                <!-- Submit -->
+                                <div class="form-section">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="terms" required>
+                                        <label class="form-check-label" for="terms">
+                                            I confirm that all information provided is accurate and complete. 
+                                            I understand that providing false information may result in my application being rejected.
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary-custom" id="submit-btn">
+                                        <i class="fas fa-paper-plane me-2"></i>Submit Application
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Student Management System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/app.js"></script>
+    <script>
+        // Sector selection
+        document.querySelectorAll('.sector-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.sector-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                document.getElementById('selected-sector').value = card.dataset.sector;
+            });
+        });
+        
+        // Pre-select sector from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const sector = urlParams.get('sector');
+        if (sector) {
+            const card = document.querySelector(`[data-sector="${sector}"]`);
+            if (card) {
+                card.click();
+            }
+        }
+        
+        // Form submission
+        document.getElementById('application-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const submitBtn = document.getElementById('submit-btn');
+            
+            // Validate passwords match
+            if (formData.get('password') !== formData.get('confirm_password')) {
+                showAlert('Passwords do not match', 'danger');
+                return;
+            }
+            
+            // Validate sector selected
+            if (!document.getElementById('selected-sector').value) {
+                showAlert('Please select a course', 'danger');
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
+            
+            try {
+                // Step 1: Register user
+                const registerResponse = await API.post('/auth/register', {
+                    email: formData.get('email'),
+                    password: formData.get('password'),
+                    first_name: formData.get('first_name'),
+                    last_name: formData.get('last_name'),
+                    phone: formData.get('phone'),
+                });
+                
+                if (registerResponse) {
+                    // Store tokens
+                    Auth.setTokens(registerResponse.access_token, registerResponse.refresh_token);
+                    Auth.setUser(registerResponse.user);
+                    
+                    // Step 2: Submit application
+                    const applicationResponse = await API.post('/students/application/submit', {
+                        sector: document.getElementById('selected-sector').value,
+                        id_number: formData.get('id_number'),
+                        date_of_birth: formData.get('date_of_birth'),
+                        address: formData.get('address'),
+                        city: formData.get('city'),
+                        postal_code: formData.get('postal_code'),
+                        emergency_contact_name: formData.get('emergency_contact_name'),
+                        emergency_contact_phone: formData.get('emergency_contact_phone'),
+                        previous_education: formData.get('previous_education'),
+                    });
+                    
+                    if (applicationResponse) {
+                        showAlert('Application submitted successfully! Redirecting to your dashboard...', 'success');
+                        
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 2000);
+                    }
+                }
+            } catch (error) {
+                showAlert(error.message || 'Application failed. Please try again.', 'danger');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Application';
+            }
+        });
+        
+        function showAlert(message, type) {
+            const container = document.getElementById('alert-container');
+            container.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

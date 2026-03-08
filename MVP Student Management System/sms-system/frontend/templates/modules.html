@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Modules - Student Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../static/css/main.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>SMS</span>
+                </a>
+                <p class="logo-subtitle">Student Management</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <p class="nav-section-title">Main</p>
+                    <a href="dashboard.html" class="nav-item">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="profile.html" class="nav-item">
+                        <i class="fas fa-user"></i>
+                        <span>My Profile</span>
+                    </a>
+                    <a href="modules.html" class="nav-item active">
+                        <i class="fas fa-book"></i>
+                        <span>My Modules</span>
+                    </a>
+                    <a href="timetable.html" class="nav-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Timetable</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <p class="nav-section-title">Academic</p>
+                    <a href="attendance.html" class="nav-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Attendance</span>
+                    </a>
+                    <a href="assignments.html" class="nav-item">
+                        <i class="fas fa-tasks"></i>
+                        <span>Assignments</span>
+                    </a>
+                    <a href="results.html" class="nav-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Results</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <p class="nav-section-title">Support</p>
+                    <a href="tickets.html" class="nav-item">
+                        <i class="fas fa-headset"></i>
+                        <span>Helpdesk</span>
+                    </a>
+                    <a href="campus-map.html" class="nav-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Campus Map</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <h1 class="page-title">My Modules</h1>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">0</span>
+                    </button>
+                    <div class="user-menu dropdown">
+                        <div class="user-avatar" id="user-avatar">ST</div>
+                        <div class="user-info">
+                            <div class="user-name" id="user-name">Student</div>
+                            <div class="user-role" id="user-role">Student</div>
+                        </div>
+                        <button class="btn btn-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item logout-btn" href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Enrolled Modules -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title"><i class="fas fa-book-open me-2 text-primary"></i>Enrolled Modules</h5>
+                        <a href="#" class="btn btn-sm btn-primary-custom" data-bs-toggle="modal" data-bs-target="#enrollModal">
+                            <i class="fas fa-plus me-1"></i>Enroll in Module
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div id="enrolled-modules">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Available Modules -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title"><i class="fas fa-list me-2 text-success"></i>Available Modules</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="available-modules">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-success" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Enroll Modal -->
+    <div class="modal fade" id="enrollModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Enroll in Module</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Select a module to enroll:</p>
+                    <div id="enroll-modules-list">
+                        <div class="text-center py-3">
+                            <div class="spinner-border spinner-border-sm" role="status"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/app.js"></script>
+    <script>
+        // Load enrolled modules
+        async function loadEnrolledModules() {
+            try {
+                const modules = await API.get('/modules/my/enrolled');
+                const container = document.getElementById('enrolled-modules');
+                
+                if (!modules || modules.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-book"></i>
+                            <h5>No enrolled modules</h5>
+                            <p>Enroll in modules to see them here</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = `
+                    <div class="row g-4">
+                        ${modules.map(m => `
+                            <div class="col-md-6 col-lg-4">
+                                <div class="course-card">
+                                    <div class="course-header" style="background: linear-gradient(135deg, #252540, #1A1A2E);">
+                                        <div class="course-icon">
+                                            <i class="fas fa-book"></i>
+                                        </div>
+                                        <h4>${m.module.code}</h4>
+                                        <small>${m.module.title}</small>
+                                    </div>
+                                    <div class="course-body">
+                                        <p class="text-muted">${m.module.description?.substring(0, 100) || 'No description'}...</p>
+                                        <div class="course-meta">
+                                            <span class="course-meta-item">
+                                                <i class="fas fa-star"></i>${m.module.credits} Credits
+                                            </span>
+                                            <span class="course-meta-item">
+                                                <i class="fas fa-signal"></i>${m.module.level_display}
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-success">${m.status}</span>
+                                            <a href="module-detail.html?id=${m.module.id}" class="btn btn-sm btn-outline">View</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Failed to load enrolled modules:', error);
+            }
+        }
+        
+        // Load available modules
+        async function loadAvailableModules() {
+            try {
+                const modules = await API.get('/modules/');
+                const container = document.getElementById('available-modules');
+                
+                if (!modules || modules.length === 0) {
+                    container.innerHTML = '<p class="text-muted">No modules available</p>';
+                    return;
+                }
+                
+                container.innerHTML = `
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Title</th>
+                                    <th>Sector</th>
+                                    <th>Credits</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${modules.map(m => `
+                                    <tr>
+                                        <td><strong>${m.code}</strong></td>
+                                        <td>${m.title}</td>
+                                        <td><span class="badge bg-secondary">${m.sector_display}</span></td>
+                                        <td>${m.credits}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary-custom" onclick="enrollInModule(${m.id})">
+                                                Enroll
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                
+                // Also populate enroll modal
+                document.getElementById('enroll-modules-list').innerHTML = modules.map(m => `
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="module_to_enroll" value="${m.id}" id="module_${m.id}">
+                        <label class="form-check-label" for="module_${m.id}">
+                            <strong>${m.code}</strong> - ${m.title}
+                        </label>
+                    </div>
+                `).join('') + `
+                    <button class="btn btn-primary-custom w-100 mt-3" onclick="enrollSelectedModule()">
+                        Enroll Now
+                    </button>
+                `;
+                
+            } catch (error) {
+                console.error('Failed to load available modules:', error);
+            }
+        }
+        
+        // Enroll in module
+        async function enrollInModule(moduleId) {
+            try {
+                const result = await API.post(`/modules/${moduleId}/enroll`);
+                if (result) {
+                    UI.showToast('Enrolled successfully!', 'success');
+                    loadEnrolledModules();
+                    loadAvailableModules();
+                }
+            } catch (error) {
+                UI.showToast('Enrollment failed: ' + error.message, 'error');
+            }
+        }
+        
+        // Enroll selected module from modal
+        async function enrollSelectedModule() {
+            const selected = document.querySelector('input[name="module_to_enroll"]:checked');
+            if (!selected) {
+                UI.showToast('Please select a module', 'warning');
+                return;
+            }
+            
+            await enrollInModule(selected.value);
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('enrollModal'));
+            modal.hide();
+        }
+        
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadEnrolledModules();
+            loadAvailableModules();
+        });
+    </script>
+</body>
+</html>
